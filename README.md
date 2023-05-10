@@ -2,30 +2,26 @@
 Task 1
 
 ```
-SELECT name FROM Pilots
-JOIN Flights ON Pilots.pilot_id = Flights.second_pilot_id
-WHERE MONTH(flight_dt) = 8 AND YEAR(flight_dt) = 2022 AND destination = "SVO"
-GROUP BY pilot_id
-HAVING COUNT(flight_id) = 3
+select * from Staff
+where email in (
+  select count(email) as cnt from Staff
+  group by email
+  having cnt > 1
+)
 ```
 
 Task 2
 
 ```
-SELECT DISTINCt name FROM Pilots
-JOIN Flights ON (Pilots.pilot_id = Flights.first_pilot_id OR 
-                 Pilots.pilot_id = Flights.second_pilot_id)
-JOIN Planes ON Flights.plane_id = Planes.plane_id
-WHERE cargo_flg = 1 AND quantity > 30 AND age > 45
+select name, date_diff(yy, getdate(), birthday) as age from Staff
 ```
 
 Task 3
 
 ```
-SELECT DISTINCt name FROM Pilots
-JOIN Flights ON Pilots.pilot_id = Flights.first_pilot_id
-Join Planes ON Flights.plane_id = Planes.plane_id
-WHERE cargo_flg = 1 AND YEAr(flight_dt) = 2022
-GROUP BY name
-ORDER BY COUNT(name) DESC LIMIT 10
+select Jobtitles.name, avg(salary) as avg_salary from Staff
+inner join Jobtitles on Staff.jobtitle_id = Jobtitles.jobtitle_id
+group by Jobtitles.jobtitle_id 
+order by avg_salary desc
+limit 1 offset 1
 ```
